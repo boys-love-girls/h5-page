@@ -1,332 +1,40 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生日庆祝 - 1998.09.28</title>
+    <title>Birthday Celebration</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-            background: #0a0e27;
-            cursor: pointer;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
         }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
         .content {
-            animation: fadeIn 1s ease-out;
+            margin-bottom: 50px;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .birthday-text {
-            font-size: 80px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff6b9d, #c06c84, #6c5ce7, #74b9ff, #a29bfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 30px;
-            text-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
-            animation: pulse 2s ease-in-out infinite, colorShift 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes colorShift {
-            0% {
-                filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.8));
-            }
-            50% {
-                filter: drop-shadow(0 0 20px rgba(108, 92, 231, 0.8));
-            }
-            100% {
-                filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.8));
-            }
-        }
-
-        .birthday-message {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            animation: slideDown 1s ease-out 0.3s both;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .wishes {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 20px;
-            animation: slideUp 1s ease-out 0.6s both;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .emoji {
-            display: inline-block;
-            font-size: 40px;
-            margin: 0 10px;
-            animation: jump 0.6s ease-in-out infinite;
-        }
-
-        .emoji:nth-child(1) { animation-delay: 0s; }
-        .emoji:nth-child(2) { animation-delay: 0.1s; }
-        .emoji:nth-child(3) { animation-delay: 0.2s; }
-        .emoji:nth-child(4) { animation-delay: 0.3s; }
-        .emoji:nth-child(5) { animation-delay: 0.4s; }
-
-        @keyframes jump {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .back-btn {
+        .floating-text {
             position: fixed;
-            top: 30px;
-            left: 30px;
-            z-index: 20;
-            padding: 12px 24px;
+            bottom: 20px;
+            right: 20px;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
-            transform: translateX(-5px);
-        }
-
-        .back-btn:active {
-            transform: translateX(-3px);
-        }
-
-        @media (max-width: 768px) {
-            .birthday-text {
-                font-size: 50px;
-            }
-
-            .birthday-message {
-                font-size: 18px;
-            }
-
-            .wishes {
-                font-size: 14px;
-            }
-
-            .emoji {
-                font-size: 30px;
-            }
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <canvas id="particleCanvas"></canvas>
-    
-    <div class="container">
-        <div class="content">
-            <div class="birthday-text">1998.09.28</div>
-            <div class="birthday-message">🎂 生日快乐 🎂</div>
-            <div class="wishes">
-                <span class="emoji">🎉</span>
-                <span class="emoji">🎈</span>
-                <span class="emoji">🎊</span>
-                <span class="emoji">✨</span>
-                <span class="emoji">🌟</span>
-            </div>
-            <div class="wishes">祝你生日快乐！愿你永远闪闪发光</div>
-        </div>
+    <div class="content">
+        <h1>Happy Birthday!</h1>
+        <p>Wishing you a day filled with love and cheer.</p>
     </div>
-
-    <button class="back-btn" onclick="history.back()">← 返回</button>
-
-    <script>
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 8 + 2;
-                this.speedX = (Math.random() - 0.5) * 8;
-                this.speedY = (Math.random() - 0.5) * 8 - 2;
-                this.opacity = 1;
-                this.decay = Math.random() * 0.015 + 0.01;
-                this.color = this.randomColor();
-                this.rotation = Math.random() * Math.PI * 2;
-                this.rotationSpeed = (Math.random() - 0.5) * 0.1;
-            }
-
-            randomColor() {
-                const colors = [
-                    'rgba(255, 107, 157, ',
-                    'rgba(192, 108, 132, ',
-                    'rgba(108, 92, 231, ',
-                    'rgba(116, 185, 255, ',
-                    'rgba(162, 155, 254, ',
-                    'rgba(255, 195, 113, ',
-                    'rgba(74, 235, 172, '
-                ];
-                return colors[Math.floor(Math.random() * colors.length)];
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.speedY += 0.1; // 重力效果
-                this.opacity -= this.decay;
-                this.rotation += this.rotationSpeed;
-            }
-
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.opacity;
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation);
-                
-                // 绘制粒子
-                ctx.fillStyle = this.color + this.opacity + ')';
-                ctx.beginPath();
-                ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // 发光效果
-                ctx.strokeStyle = this.color + this.opacity * 0.5 + ')';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(0, 0, this.size + 2, 0, Math.PI * 2);
-                ctx.stroke();
-                
-                ctx.restore();
-            }
-        }
-
-        let particles = [];
-
-        function createExplosion(x, y, count = 20) {
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle(x, y));
-            }
-        }
-
-        function animate() {
-            ctx.fillStyle = 'rgba(10, 14, 39, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update();
-                particles[i].draw();
-
-                if (particles[i].opacity <= 0) {
-                    particles.splice(i, 1);
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        // 自动爆炸效果
-        setInterval(() => {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height * 0.6;
-            createExplosion(x, y, Math.random() * 15 + 10);
-        }, 500);
-
-        // 点击产生粒子效果
-        document.addEventListener('click', (e) => {
-            createExplosion(e.clientX, e.clientY, 30);
-        });
-
-        // 触摸产生粒子效果（移动设备）
-        document.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            createExplosion(touch.clientX, touch.clientY, 30);
-        });
-
-        // 响应窗口大小变化
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        animate();
-    </script>
+    <div class="floating-text">
+        Enjoy your special day! 🎉
+    </div>
 </body>
 </html>
